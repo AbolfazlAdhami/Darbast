@@ -1,7 +1,18 @@
 {
-    "workbench.colorCustomizations": {
-        "activityBar.background": "#043146",
-        "titleBar.activeBackground": "#064562",
-        "titleBar.activeForeground": "#F6FCFE"
-    }
+  "workbench.colorCustomizations": {
+    "activityBar.background": "#043146",
+    "titleBar.activeBackground": "#064562",
+    "titleBar.activeForeground": "#F6FCFE"
+  },
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  }
 }
