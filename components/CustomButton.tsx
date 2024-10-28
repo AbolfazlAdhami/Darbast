@@ -1,6 +1,7 @@
 import React from "react";
 import { TextStyled, TouchableBTN } from "./CoreStyled";
 import { ButtonProps } from "@/types/type";
+
 const getBgVariantStyle = (variant: ButtonProps["bgVariant"]) => {
   switch (variant) {
     case "secondary":
@@ -32,11 +33,7 @@ const getTextVariantStyle = (variant: ButtonProps["textVariant"]) => {
 
 const CustomButton = ({ onPress, title, bgVariant = "primary", textVariant = "default", IconLeft, IconRight, className, ...props }: ButtonProps) => {
   return (
-    <TouchableBTN
-      className={`w-full py-3  rounded-full flex items-center justify-center   ${getBgVariantStyle(bgVariant)} ${className}`}
-      onPress={onPress}
-      {...props}
-    >
+    <TouchableBTN className={`w-full py-3  rounded-full flex items-center justify-center   ${getBgVariantStyle(bgVariant)} ${className}`} onPress={onPress} {...props}>
       {IconLeft && <IconLeft />}
       <TextStyled className={`text-lg font-bold  ${getTextVariantStyle(textVariant)}`}>{title}</TextStyled>
       {IconRight && <IconRight />}

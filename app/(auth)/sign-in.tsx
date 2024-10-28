@@ -1,7 +1,11 @@
-import { SafeAreaViewStyled } from "@/components/CoreStyled";
+import { SafeAreaViewStyled, TextStyled } from "@/components/CoreStyled";
 
 const SignIn = () => {
-  return <SafeAreaViewStyled></SafeAreaViewStyled>;
+  return (
+    <SafeAreaViewStyled>
+      <TextStyled>Hello</TextStyled>
+    </SafeAreaViewStyled>
+  );
 };
 
 export default SignIn;

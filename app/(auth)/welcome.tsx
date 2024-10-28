@@ -4,7 +4,7 @@ import { router } from "expo-router";
 import Swiper from "react-native-swiper";
 import { onboarding } from "@/constant";
 import { Platform } from "react-native";
-import CustomButton from "@/components/CoustomButton";
+import CustomButton from "@/components/CustomButton";
 
 const OnBoarding = () => {
   const swiperRef = useRef<Swiper>(null);
@@ -12,10 +12,7 @@ const OnBoarding = () => {
   const lastSlide = activeIndex === onboarding.length - 1;
   return (
     <SafeAreaViewStyled className={"h-full pb-4 flex items-center justify-between bg-white "}>
-      <TouchableBTN
-        className={`w-full p-5 justify-end  flex ${Platform.OS === "android" ? "items-start" : "items-end"}`}
-        onPress={() => router.replace("/(auth)/sign-up")}
-      >
+      <TouchableBTN className={`w-full p-5 justify-end  flex ${Platform.OS === "android" ? "items-start" : "items-end"}`} onPress={() => router.replace("/(auth)/sign-up")}>
         <TextStyled className="text-sm text-black font-noorSemiBold ">مرحله بعدی</TextStyled>
       </TouchableBTN>
       <Swiper
@@ -34,11 +31,7 @@ const OnBoarding = () => {
           </ViewStyled>
         ))}
       </Swiper>
-      <CustomButton
-        title={lastSlide ? "شروع ثبت نام" : "بعدی"}
-        onPress={() => (lastSlide ? router.replace("/(auth)/sign-up") : swiperRef.current?.scrollBy(1))}
-        className={"w-11/12 mt-10"}
-      />
+      <CustomButton title={lastSlide ? "شروع ثبت نام" : "بعدی"} onPress={() => (lastSlide ? router.replace("/(auth)/sign-up") : swiperRef.current?.scrollBy(1))} className={"w-11/12 mt-10"} />
     </SafeAreaViewStyled>
   );
 };
