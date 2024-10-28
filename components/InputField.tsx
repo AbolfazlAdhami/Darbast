@@ -4,7 +4,7 @@ import { InputFieldProps } from "@/types/type";
 import { useState } from "react";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
-const Input = ({ label, labelStyle, icon, iconStyle, className, secureTextEntry = false, containerStyle, ...props }: InputFieldProps) => {
+const InputField = ({ label, labelStyle, icon, iconStyle, className, secureTextEntry = false, containerStyle, ...props }: InputFieldProps) => {
   const [hidden, setHidden] = useState<boolean>(secureTextEntry);
 
   return (
@@ -30,4 +30,4 @@ const Input = ({ label, labelStyle, icon, iconStyle, className, secureTextEntry 
   );
 };
 
-export default Input;
+export default InputField;

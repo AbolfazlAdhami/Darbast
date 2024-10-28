@@ -1,10 +1,8 @@
+import { Platform } from "react-native";
 import { ScrollViewStyled, TextStyled, ViewStyled, ImageStyled } from "@/components/CoreStyled";
 import { icons, images } from "@/constant";
-import Input from "@/components/Input";
 import { Formik } from "formik";
-import { Platform } from "react-native";
-import CustomButton from "@/components/CustomButton";
-import ErrorInfo from "@/components/ErrorInfo";
+import { CustomButton, ErrorInfo, InputField } from "@/components";
 import * as Yup from "yup";
 
 const passwordPattern = /^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*\d).+$/;
@@ -36,7 +34,7 @@ const SignUp = () => {
         <Formik initialValues={{ email: "", username: "", password: "" }} validationSchema={SignupSchema} onSubmit={(values: FormInputesType) => console.log(values)}>
           {({ handleSubmit, handleChange, handleBlur, values, errors, touched }) => (
             <ViewStyled className="p-5">
-              <Input
+              <InputField
                 value={values.username}
                 onBlur={handleBlur("username")}
                 onChangeText={handleChange("username")}
@@ -46,7 +44,7 @@ const SignUp = () => {
                 icon={icons.person}
               />
               {errors.username && touched.username ? <ErrorInfo message={errors.username} /> : null}
-              <Input
+              <InputField
                 value={values.email}
                 onBlur={handleBlur("email")}
                 onChangeText={handleChange("email")}
@@ -57,7 +55,7 @@ const SignUp = () => {
                 icon={icons.email}
               />
               {errors.email && touched.email ? <ErrorInfo message={errors.email} /> : null}
-              <Input label="پسوورد" icon={icons.lock} secureTextEntry={true} value={values.password} onBlur={handleBlur("password")} onChangeText={handleChange("password")} />
+              <InputField label="پسوورد" icon={icons.lock} secureTextEntry={true} value={values.password} onBlur={handleBlur("password")} onChangeText={handleChange("password")} />
               {errors.password && touched.password ? <ErrorInfo message={errors.password} /> : null}
 
               <CustomButton title="ثبت نام " onPress={handleSubmit} className="my-4" />
