@@ -14,7 +14,7 @@ const OAuth = () => {
       <CustomButton
         textVariant="primary"
         bgVariant="outline"
-        className="w-full my-4 shadow-none "
+        className="w-full my-4 shadow-none border-none"
         IconLeft={() => <ImageStyled resizeMode="contain" source={icons.google} className="w-5 h-5 mx-2" />}
         title="ورود با اکانت گوگل"
         onPress={handleGoogleSingin}

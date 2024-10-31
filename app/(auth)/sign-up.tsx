@@ -1,12 +1,10 @@
 import { Platform } from "react-native";
 import { ScrollViewStyled, TextStyled, ViewStyled, ImageStyled } from "@/components/CoreStyled";
-import { icons, images } from "@/constant";
+import { icons, images, passwordPattern } from "@/constant";
 import { Formik } from "formik";
 import { CustomButton, ErrorInfo, InputField, OAuth } from "@/components";
 import * as Yup from "yup";
 import { Link } from "expo-router";
-
-const passwordPattern = /^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*\d).+$/;
 
 const SignupSchema = Yup.object().shape({
   username: Yup.string().required("پر کردن ایم فیلد اجباریست").min(5, "نام کاربری باید حداقل ۵ حرفی باشد").max(20, "تعداد کاراکتر بیش از حد مجاز"),
@@ -28,8 +26,8 @@ const SignUp = () => {
   return (
     <ScrollViewStyled className=" bg-white ">
       <ViewStyled className="flex-1  bg-white">
-        <ViewStyled className="flex-1 relative w-full h-[250px]">
-          <ImageStyled className="z-0 w-fulwl h-[250px]" source={images.signUpCar} />
+        <ViewStyled className="flex-1 relative w-full h-[200px]">
+          <ImageStyled className="z-0 w-full h-[200px]" source={images.signUpCar} />
           <TextStyled className={`absolute ${Platform.OS === "android" ? "left-5" : "right-5 "} bottom-5 text-black font-noorSemiBold text-3xl`}>ایجاد حساب کاربری</TextStyled>
         </ViewStyled>
         <ViewStyled className="p-5">
@@ -41,7 +39,7 @@ const SignUp = () => {
             }}
           >
             {({ handleSubmit, handleChange, handleBlur, values, errors, touched }) => (
-              <ViewStyled className="">
+              <>
                 <InputField
                   value={values.username}
                   onBlur={handleBlur("username")}
@@ -66,10 +64,10 @@ const SignUp = () => {
                 <InputField label="پسوورد" icon={icons.lock} secureTextEntry={true} value={values.password} onBlur={handleBlur("password")} onChangeText={handleChange("password")} />
                 {errors.password && touched.password ? <ErrorInfo message={errors.password} /> : null}
                 <CustomButton title="ثبت نام " onPress={handleSubmit} className="my-4" />
-              </ViewStyled>
+              </>
             )}
           </Formik>
-          {/* TODO:OAuth Compoentns */}
+          {/* FIXME: Add Functionality to hanldeSinginGoogle */}
           <OAuth />
           <Link href={"/(auth)/sign-in"} className="text-lg text-center mt-4 text-general-200 ">
             <TextStyled>

@@ -95,3 +95,6 @@ export const onboarding = [
 export const data = {
   onboarding,
 };
+
+
+export const passwordPattern = /^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*\d).+$/;
