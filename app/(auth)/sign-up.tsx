@@ -1,12 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { ScrollViewStyled, TextStyled, ViewStyled } from "@/components/CoreStyled";
 import { icons, passwordPattern } from "@/constant";
 import { Formik } from "formik";
 import { CustomButton, ErrorInfo, InputField, OAuth, TopHeaderAuthPages } from "@/components";
 import * as Yup from "yup";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import { useSignUp } from "@clerk/clerk-expo";
-import { useState } from "react";
 
 const SignupSchema = Yup.object().shape({
   username: Yup.string().required("پر کردن ایم فیلد اجباریست").min(5, "نام کاربری باید حداقل ۵ حرفی باشد").max(20, "تعداد کاراکتر بیش از حد مجاز"),
@@ -23,29 +22,66 @@ type FormInputesType = {
   email: string;
   password: string;
 };
+type VerificationType = {
+  state: "default" | "pending" | "accepted" | "rejected";
+  error: string;
+  code: string;
+};
 
+const initValuesForm = { email: "", username: "", password: "" };
 const SignUpPage = () => {
   const { isLoaded, setActive, signUp } = useSignUp();
+  const [varification, setVerification] = useState<VerificationType>({
+    state: "default",
+    error: "",
+    code: "",
+  });
+  const [code, setCode] = useState<string>("");
 
-  const [varification, setVerification] = useState();
+  // Verification Email Address
+  const onPresVerify = async () => {
+    if (!isLoaded) return;
 
-  const handleSubmit = async (values: FormInputesType) => {
-    if (isLoaded) return;
-    const { email, password, username } = values;
     try {
-      await signUp?.create({
-        email,
-        username,
-        password,
+      const completedSignUp = await signUp.attemptEmailAddressVerification({
+        code,
       });
-    } catch (error) {}
+      if (completedSignUp.status === "complete") {
+        setActive({ session: completedSignUp.createdSessionId });
+        router.push("/(tabs)/home");
+      }
+    } catch (error) {
+      console.error(JSON.stringify(error, null, 2));
+    }
   };
+
   return (
     <ScrollViewStyled className=" bg-white ">
       <ViewStyled className="flex-1  bg-white">
         <TopHeaderAuthPages title="ایجاد حساب کاربری" />
         <ViewStyled className="p-5">
-          <Formik initialValues={{ email: "", username: "", password: "" }} validationSchema={SignupSchema} onSubmit={(values: FormInputesType) => handleSubmit(values)}>
+          <Formik
+            initialValues={initValuesForm}
+            validationSchema={SignupSchema}
+            onSubmit={async (values: FormInputesType) => {
+              if (!isLoaded) return;
+              const { email, password, username } = values;
+              try {
+                await signUp?.create({
+                  emailAddress: email,
+                  username,
+                  password,
+                });
+                await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
+                setVerification({
+                  ...varification,
+                  state: "pending",
+                });
+              } catch (error) {
+                console.error(JSON.stringify(error, null, 2));
+              }
+            }}
+          >
             {({ handleSubmit, handleChange, handleBlur, values, errors, touched }) => (
               <>
                 <InputField

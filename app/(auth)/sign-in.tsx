@@ -4,7 +4,7 @@ import { icons, passwordPattern } from "@/constant";
 import { Formik } from "formik";
 import { CustomButton, ErrorInfo, InputField, OAuth, TopHeaderAuthPages } from "@/components";
 import * as Yup from "yup";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import { useSignIn } from "@clerk/clerk-expo";
 
 const SignupSchema = Yup.object().shape({
@@ -28,11 +28,26 @@ const SignIn = () => {
       <ViewStyled className="flex-1  bg-white">
         <TopHeaderAuthPages title="خوش آمدید 👋" />
         <ViewStyled className="p-5">
-          <Formik initialValues={{ email: "", username: "", password: "" }} validationSchema={SignupSchema} onSubmit={async (values: FormInputesType) => {
-              signIn.
-
-
-          }}>
+          <Formik
+            initialValues={{ email: "", username: "", password: "" }}
+            validationSchema={SignupSchema}
+            onSubmit={async (values: FormInputesType) => {
+              if (!isLoaded) return;
+              const { email, password } = values;
+              try {
+                const signInAttempt = await signIn.create({
+                  identifier: email,
+                  password,
+                });
+                if (signInAttempt.status === "complete") {
+                  setActive({ session: signInAttempt.createdSessionId });
+                  router.push("/(tabs)/home");
+                }
+              } catch (error) {
+                console.error(JSON.stringify(error, null, 2));
+              }
+            }}
+          >
             {({ handleSubmit, handleChange, handleBlur, values, errors, touched }) => (
               <>
                 <InputField
