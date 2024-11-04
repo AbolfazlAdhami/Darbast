@@ -1,8 +1,12 @@
 import { ImageStyled, TextStyled, ViewStyled } from "./CoreStyled";
 import CustomButton from "./CustomButton";
 import { icons } from "@/constant";
+import { useOAuth } from "@clerk/clerk-expo";
+
 const OAuth = () => {
-  const handleGoogleSingin = async() => {};
+  const { startOAuthFlow } = useOAuth();
+
+  const handleGoogleSingin = async () => {};
 
   return (
     <ViewStyled>

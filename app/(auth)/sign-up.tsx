@@ -1,10 +1,12 @@
-import { Platform } from "react-native";
-import { ScrollViewStyled, TextStyled, ViewStyled, ImageStyled } from "@/components/CoreStyled";
-import { icons, images, passwordPattern } from "@/constant";
+import React from "react";
+import { ScrollViewStyled, TextStyled, ViewStyled } from "@/components/CoreStyled";
+import { icons, passwordPattern } from "@/constant";
 import { Formik } from "formik";
-import { CustomButton, ErrorInfo, InputField, OAuth } from "@/components";
+import { CustomButton, ErrorInfo, InputField, OAuth, TopHeaderAuthPages } from "@/components";
 import * as Yup from "yup";
 import { Link } from "expo-router";
+import { useSignUp } from "@clerk/clerk-expo";
+import { useState } from "react";
 
 const SignupSchema = Yup.object().shape({
   username: Yup.string().required("پر کردن ایم فیلد اجباریست").min(5, "نام کاربری باید حداقل ۵ حرفی باشد").max(20, "تعداد کاراکتر بیش از حد مجاز"),
@@ -22,22 +24,28 @@ type FormInputesType = {
   password: string;
 };
 
-const SignUp = () => {
+const SignUpPage = () => {
+  const { isLoaded, setActive, signUp } = useSignUp();
+
+  const [varification, setVerification] = useState();
+
+  const handleSubmit = async (values: FormInputesType) => {
+    if (isLoaded) return;
+    const { email, password, username } = values;
+    try {
+      await signUp?.create({
+        email,
+        username,
+        password,
+      });
+    } catch (error) {}
+  };
   return (
     <ScrollViewStyled className=" bg-white ">
       <ViewStyled className="flex-1  bg-white">
-        <ViewStyled className="flex-1 relative w-full h-[200px]">
-          <ImageStyled className="z-0 w-full h-[200px]" source={images.signUpCar} />
-          <TextStyled className={`absolute ${Platform.OS === "android" ? "left-5" : "right-5 "} bottom-5 text-black font-noorSemiBold text-3xl`}>ایجاد حساب کاربری</TextStyled>
-        </ViewStyled>
+        <TopHeaderAuthPages title="ایجاد حساب کاربری" />
         <ViewStyled className="p-5">
-          <Formik
-            initialValues={{ email: "", username: "", password: "" }}
-            validationSchema={SignupSchema}
-            onSubmit={(values: FormInputesType) => {
-              console.log(values);
-            }}
-          >
+          <Formik initialValues={{ email: "", username: "", password: "" }} validationSchema={SignupSchema} onSubmit={(values: FormInputesType) => handleSubmit(values)}>
             {({ handleSubmit, handleChange, handleBlur, values, errors, touched }) => (
               <>
                 <InputField
@@ -81,4 +89,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default SignUpPage;
