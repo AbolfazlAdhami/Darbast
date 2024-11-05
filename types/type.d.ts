@@ -113,3 +113,7 @@ declare interface DriverCardProps {
   selected: number;
   setSelected: () => void;
 }
+
+declare interface ModalVerificationPropsType {
+  isVisible: boolean;
+}

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { ScrollViewStyled, TextStyled, ViewStyled } from "@/components/CoreStyled";
 import { icons, passwordPattern } from "@/constant";
 import { Formik } from "formik";
-import { CustomButton, ErrorInfo, InputField, OAuth, TopHeaderAuthPages } from "@/components";
+import { CustomButton, ErrorInfo, InputField, OAuth, TopHeaderAuthPages, ModalVerification } from "@/components";
 import * as Yup from "yup";
 import { Link, router } from "expo-router";
 import { useSignUp } from "@clerk/clerk-expo";
@@ -23,7 +23,7 @@ type FormInputesType = {
   password: string;
 };
 type VerificationType = {
-  state: "default" | "pending" | "accepted" | "rejected";
+  state: "default" | "pending" | "success" | "failed";
   error: string;
   code: string;
 };
@@ -31,12 +31,11 @@ type VerificationType = {
 const initValuesForm = { email: "", username: "", password: "" };
 const SignUpPage = () => {
   const { isLoaded, setActive, signUp } = useSignUp();
-  const [varification, setVerification] = useState<VerificationType>({
-    state: "default",
+  const [verification, setVerification] = useState<VerificationType>({
+    state: "success",
     error: "",
     code: "",
   });
-  const [code, setCode] = useState<string>("");
 
   // Verification Email Address
   const onPresVerify = async () => {
@@ -44,14 +43,31 @@ const SignUpPage = () => {
 
     try {
       const completedSignUp = await signUp.attemptEmailAddressVerification({
-        code,
+        code: verification.code,
       });
       if (completedSignUp.status === "complete") {
+        // TODO: Create a database User
+
         setActive({ session: completedSignUp.createdSessionId });
+        setVerification({
+          ...verification,
+          state: "success",
+        });
         router.push("/(tabs)/home");
+      } else {
+        setVerification({
+          ...verification,
+          state: "failed",
+          error: "Verification Failed!",
+        });
       }
     } catch (error) {
       console.error(JSON.stringify(error, null, 2));
+      setVerification({
+        ...verification,
+        state: "failed",
+        error: JSON.stringify(error, null, 2),
+      });
     }
   };
 
@@ -74,7 +90,7 @@ const SignUpPage = () => {
                 });
                 await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
                 setVerification({
-                  ...varification,
+                  ...verification,
                   state: "pending",
                 });
               } catch (error) {
@@ -107,6 +123,7 @@ const SignUpPage = () => {
                 {errors.email && touched.email ? <ErrorInfo message={errors.email} /> : null}
                 <InputField label="پسوورد" icon={icons.lock} secureTextEntry={true} value={values.password} onBlur={handleBlur("password")} onChangeText={handleChange("password")} />
                 {errors.password && touched.password ? <ErrorInfo message={errors.password} /> : null}
+                {/* FIXME: Fix type Bug of this line */}
                 <CustomButton title="ثبت نام " onPress={handleSubmit} className="my-4" />
               </>
             )}
@@ -118,7 +135,7 @@ const SignUpPage = () => {
               اگر حساب فعال دارید؟<TextStyled className="text-primary-500">وارد شوید</TextStyled>
             </TextStyled>
           </Link>
-          {/* TODO:Verification Modal */}
+          <ModalVerification isVisible={verification.state === "success"} />
         </ViewStyled>
       </ViewStyled>
     </ScrollViewStyled>

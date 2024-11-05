@@ -1,3 +1,4 @@
+import React from "react";
 import { I18nManager, Platform } from "react-native";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
@@ -36,7 +37,7 @@ export default function RootLayout() {
     return null;
   }
   const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!;
-  if (publishableKey) {
+  if (!publishableKey) {
     throw new Error("Add EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY to your .env file");
   }
 

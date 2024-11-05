@@ -4,7 +4,7 @@ import { icons } from "@/constant";
 import { useOAuth } from "@clerk/clerk-expo";
 
 const OAuth = () => {
-  const { startOAuthFlow } = useOAuth();
+  const { startOAuthFlow } = useOAuth({ strategy: "oauth_google" });
 
   const handleGoogleSingin = async () => {};
 
