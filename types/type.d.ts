@@ -60,6 +60,7 @@ declare interface ButtonProps extends TouchableOpacityProps {
   IconLeft?: React.ComponentType<any>;
   IconRight?: React.ComponentType<any>;
   className?: string;
+  onPress: (event: FormEvent<HTMLFormElement> | GestureResponderEvent) => void;
 }
 
 declare interface GoogleInputProps {

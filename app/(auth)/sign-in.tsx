@@ -63,7 +63,7 @@ const SignIn = () => {
                 {errors.email && touched.email ? <ErrorInfo message={errors.email} /> : null}
                 <InputField label="پسوورد" icon={icons.lock} secureTextEntry={true} value={values.password} onBlur={handleBlur("password")} onChangeText={handleChange("password")} />
                 {errors.password && touched.password ? <ErrorInfo message={errors.password} /> : null}
-                {/* FIXME: Fix type Bug of this line */}
+
                 <CustomButton disabled={isLoaded} title="ثبت نام " onPress={handleSubmit} className="my-4" />
               </>
             )}
