@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { ScrollViewStyled, TextStyled, ViewStyled } from "@/components/CoreStyled";
 import { icons, passwordPattern } from "@/constant";
 import { Formik } from "formik";
-import { CustomButton, ErrorInfo, InputField, OAuth, TopHeaderAuthPages, ModalVerification } from "@/components";
+import { CustomButton, ErrorInfo, InputField, OAuth, TopHeaderAuthPages, ModalVerification, OtpModal } from "@/components";
 import * as Yup from "yup";
 import { Link, router } from "expo-router";
 import { useSignUp } from "@clerk/clerk-expo";
@@ -25,25 +25,23 @@ type FormInputesType = {
 type VerificationType = {
   state: "default" | "pending" | "success" | "failed";
   error: string;
-  code: string;
 };
 
 const initValuesForm = { email: "", username: "", password: "" };
 const SignUpPage = () => {
   const { isLoaded, setActive, signUp } = useSignUp();
   const [verification, setVerification] = useState<VerificationType>({
-    state: "success",
+    state: "pending",
     error: "",
-    code: "",
   });
-
+  const [code, setCode] = useState<string>("");
   // Verification Email Address
-  const onPresVerify = async () => {
+  const onPressVerify = async () => {
     if (!isLoaded) return;
 
     try {
       const completedSignUp = await signUp.attemptEmailAddressVerification({
-        code: verification.code,
+        code,
       });
       if (completedSignUp.status === "complete") {
         // TODO: Create a database User
@@ -136,6 +134,7 @@ const SignUpPage = () => {
             </TextStyled>
           </Link>
           <ModalVerification isVisible={verification.state === "success"} />
+          <OtpModal onPress={onPressVerify} isVisible={verification.state === "pending"} code={code} onChangText={setCode} error={verification.error} />
         </ViewStyled>
       </ViewStyled>
     </ScrollViewStyled>

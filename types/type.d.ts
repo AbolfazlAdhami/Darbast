@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from "react";
 import { TextInputProps, TouchableOpacityProps } from "react-native";
 
 declare interface Driver {
@@ -117,4 +118,11 @@ declare interface DriverCardProps {
 
 declare interface ModalVerificationPropsType {
   isVisible: boolean;
+}
+declare interface OtpModalProps {
+  isVisible: boolean;
+  code: string;
+  error: string;
+  onChangText: Dispatch<SetStateAction<string>>;
+  onPress: function;
 }

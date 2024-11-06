@@ -4,3 +4,4 @@ export { default as CustomButton } from "./CustomButton";
 export { default as OAuth } from "./OAuth";
 export { default as TopHeaderAuthPages } from "./TopHeaderAuthPages";
 export { default as ModalVerification } from "./ModalVerification";
+export { default as OtpModal } from "./OtpModal";
