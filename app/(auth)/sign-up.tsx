@@ -6,6 +6,7 @@ import { CustomButton, ErrorInfo, InputField, OAuth, TopHeaderAuthPages, ModalVe
 import * as Yup from "yup";
 import { Link, router } from "expo-router";
 import { useSignUp } from "@clerk/clerk-expo";
+import { Alert } from "react-native";
 
 const SignupSchema = Yup.object().shape({
   username: Yup.string().required("پر کردن ایم فیلد اجباریست").min(5, "نام کاربری باید حداقل ۵ حرفی باشد").max(20, "تعداد کاراکتر بیش از حد مجاز"),
@@ -31,7 +32,7 @@ const initValuesForm = { email: "", username: "", password: "" };
 const SignUpPage = () => {
   const { isLoaded, setActive, signUp } = useSignUp();
   const [verification, setVerification] = useState<VerificationType>({
-    state: "pending",
+    state: "default",
     error: "",
   });
   const [code, setCode] = useState<string>("");
@@ -83,7 +84,6 @@ const SignUpPage = () => {
               try {
                 await signUp?.create({
                   emailAddress: email,
-                  username,
                   password,
                 });
                 await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
@@ -93,6 +93,7 @@ const SignUpPage = () => {
                 });
               } catch (error) {
                 console.error(JSON.stringify(error, null, 2));
+                Alert.alert("Error", error?.errors[0].longMEssage);
               }
             }}
           >

@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import { TextInputProps, TouchableOpacityProps } from "react-native";
+import { ModalProps } from "react-native-modal";
 
 declare interface Driver {
   driver_id: number;
@@ -116,7 +117,7 @@ declare interface DriverCardProps {
   setSelected: () => void;
 }
 
-declare interface ModalVerificationPropsType {
+declare interface ModalVerificationPropsType extends ModalProps {
   isVisible: boolean;
 }
 declare interface OtpModalProps {

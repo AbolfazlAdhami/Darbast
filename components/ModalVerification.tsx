@@ -6,9 +6,9 @@ import { images } from "@/constant";
 import CustomButton from "./CustomButton";
 import { router } from "expo-router";
 
-function ModalVerification({ isVisible }: ModalVerificationPropsType) {
+function ModalVerification({ isVisible, ...props }: ModalVerificationPropsType) {
   return (
-    <ReactNativeModal isVisible={isVisible}>
+    <ReactNativeModal isVisible={isVisible} {...props}>
       <ViewStyled className="bg-white px-6 py-8 rounded-2xl min-h-[300px]">
         <ImageStyled source={images.check} resizeMode="contain" className="w-[110px] h-[110px] mx-auto my-4" />
         <TextStyled className="text-2xl text-center  font-noorSemiBold">تایید شد!</TextStyled>
