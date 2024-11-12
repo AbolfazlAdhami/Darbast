@@ -1,7 +1,8 @@
+import { ViewStyled } from "@/components/CoreStyled";
 import React from "react";
 
 function profile() {
-  return <div>profile</div>;
+  return <ViewStyled></ViewStyled>;
 }
 
 export default profile;
