@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { ScrollViewStyled, TextStyled, ViewStyled } from "@/components/CoreStyled";
-import { icons, passwordPattern } from "@/constant";
+import { ImageStyled, ScrollViewStyled, TextStyled, ViewStyled } from "@/components/CoreStyled";
+import { icons, images, passwordPattern } from "@/constant";
 import { Formik } from "formik";
-import { CustomButton, ErrorInfo, InputField, OAuth, TopHeaderAuthPages, ModalVerification, OtpModal } from "@/components";
+import { CustomButton, ErrorInfo, InputField, OAuth, TopHeaderAuthPages, Modal } from "@/components";
 import * as Yup from "yup";
 import { Link, router } from "expo-router";
 import { useSignUp } from "@clerk/clerk-expo";
@@ -35,6 +35,8 @@ const SignUpPage = () => {
     state: "default",
     error: "",
   });
+  const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false);
+
   const [code, setCode] = useState<string>("");
   // Verification Email Address
   const onPressVerify = async () => {
@@ -91,9 +93,9 @@ const SignUpPage = () => {
                   ...verification,
                   state: "pending",
                 });
-              } catch (error) {
+              } catch (error: any) {
                 console.error(JSON.stringify(error, null, 2));
-                Alert.alert("Error", error?.errors[0].longMEssage);
+                if (error.errors[0]) Alert.alert("Error", error?.errors[0].longMEssage);
               }
             }}
           >
@@ -134,8 +136,40 @@ const SignUpPage = () => {
               اگر حساب فعال دارید؟<TextStyled className="text-primary-500">وارد شوید</TextStyled>
             </TextStyled>
           </Link>
-          <ModalVerification isVisible={verification.state === "success"} />
-          <OtpModal onPress={onPressVerify} isVisible={verification.state === "pending"} code={code} onChangText={setCode} error={verification.error} />
+          {/*  */}
+          <Modal animationIn={"fadeIn"} animationOut={"fadeOut"} isVisible={showSuccessModal}>
+            <ViewStyled className="bg-white px-6 py-8 rounded-2xl min-h-[300px]">
+              <ImageStyled source={images.check} resizeMode="contain" className="w-[110px] h-[110px] mx-auto my-4" />
+              <TextStyled className="text-2xl text-center  font-noorSemiBold">تایید شد!</TextStyled>
+              <TextStyled className="text-base font-noor text-center text-gray-400">شما با موفقیت حساب خود را تأیید کردید.</TextStyled>
+              <CustomButton
+                title="صفحه اصلی"
+                className="mt-4"
+                onPress={() => {
+                  setShowSuccessModal(false);
+                  router.replace("/(root)/home");
+                }}
+              />
+            </ViewStyled>
+          </Modal>
+
+          <Modal
+            isVisible={verification.state === "pending"}
+            animationIn={"fadeIn"}
+            animationOut={"fadeOut"}
+            onModalHide={() => {
+              if (verification.state === "success") setShowSuccessModal(true);
+            }}
+          >
+            <ViewStyled className="bg-white px-6 py-8 rounded-2xl min-h-[300px]">
+              <TextStyled className="text-2xl text-right  font-noorSemiBold">تایید ایمیل کاربری</TextStyled>
+              <TextStyled className="text-base font-noor text-right text-gray-400">کد تایید به ایمیل شما ارسال شد</TextStyled>
+              <InputField label="کد تایید" icon={icons.lock} value={code} placeholder="12345" keyboardType="numeric" onChangeText={(value: string) => setCode(value)} />
+              {verification.error.length !== 0 && <ErrorInfo message={verification.error} />}
+              <CustomButton title="تایید کد" className="bg-success-500 my-4" onPress={onPressVerify} />
+            </ViewStyled>
+          </Modal>
+          {/*  */}
         </ViewStyled>
       </ViewStyled>
     </ScrollViewStyled>

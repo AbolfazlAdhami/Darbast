@@ -20,7 +20,7 @@ const InputField = ({ label, labelStyle, icon, iconStyle, className, secureTextE
             <TextInputStyled secureTextEntry={hidden} className="w-10/12 rounded-full font-noorSemiBold  text-left" value={props.value} {...props} />
             {secureTextEntry && (
               <PressableStyled className="mx-1" onPress={() => setHidden(!hidden)}>
-                {hidden ? <MaterialIcons name="visibility" size={20} color="black" /> : <MaterialIcons name="visibility-off" size={20} color="black" />}
+                {!hidden ? <MaterialIcons name="visibility" size={20} color="black" /> : <MaterialIcons name="visibility-off" size={20} color="black" />}
               </PressableStyled>
             )}
           </ViewStyled>
