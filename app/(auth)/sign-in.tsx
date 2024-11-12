@@ -1,25 +1,17 @@
 import React from "react";
 import { ScrollViewStyled, TextStyled, ViewStyled } from "@/components/CoreStyled";
-import { icons, passwordPattern } from "@/constant";
+import { icons } from "@/constant";
 import { Formik } from "formik";
 import { CustomButton, ErrorInfo, InputField, OAuth, TopHeaderAuthPages } from "@/components";
-import * as Yup from "yup";
 import { Link, router } from "expo-router";
 import { useSignIn } from "@clerk/clerk-expo";
-
-const SignupSchema = Yup.object().shape({
-  email: Yup.string().email("فرمت ایمیل نامناسب است").required("پر کردن ایم فیلد اجباریست"),
-  password: Yup.string()
-    .required("پر کردن ایم فیلد اجباریست")
-    .min(8, "پسسورد حداقل باید ۸ کاراکتری باشد")
-    .max(24, "حداکثر ۲۴ کاراکتر مجاز است")
-    .matches(passwordPattern, "پسوورد باید ترکیبی از حروف کوچک و بزرگ و علامتی مثل ! باشد"),
-});
+import { SignInSchema } from "@/validation";
 
 type FormInputesType = {
   email: string;
   password: string;
 };
+
 const SignIn = () => {
   const { signIn, setActive, isLoaded } = useSignIn();
 
@@ -30,8 +22,9 @@ const SignIn = () => {
         <ViewStyled className="p-5">
           <Formik
             initialValues={{ email: "", username: "", password: "" }}
-            validationSchema={SignupSchema}
+            validationSchema={SignInSchema}
             onSubmit={async (values: FormInputesType) => {
+              console.log(isLoaded);
               if (!isLoaded) return;
               const { email, password } = values;
               try {
@@ -64,7 +57,7 @@ const SignIn = () => {
                 <InputField label="پسوورد" icon={icons.lock} secureTextEntry={true} value={values.password} onBlur={handleBlur("password")} onChangeText={handleChange("password")} />
                 {errors.password && touched.password ? <ErrorInfo message={errors.password} /> : null}
 
-                <CustomButton disabled={isLoaded} title="ثبت نام " onPress={handleSubmit} className="my-4" />
+                <CustomButton disabled={isLoaded} title="ورود" onPress={handleSubmit} className="my-4" />
               </>
             )}
           </Formik>

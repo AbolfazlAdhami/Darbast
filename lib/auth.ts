@@ -1,6 +1,6 @@
 import * as SecureStore from "expo-secure-store";
 
-const tokenCache = {
+export const tokenCache = {
   async getToken(key: string) {
     try {
       const item = await SecureStore.getItemAsync(key);
@@ -24,5 +24,3 @@ const tokenCache = {
     }
   },
 };
-
-export { tokenCache };

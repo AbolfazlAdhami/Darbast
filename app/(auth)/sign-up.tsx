@@ -1,22 +1,13 @@
 import React, { useState } from "react";
 import { ImageStyled, ScrollViewStyled, TextStyled, ViewStyled } from "@/components/CoreStyled";
-import { icons, images, passwordPattern } from "@/constant";
+import { icons, images } from "@/constant";
 import { Formik } from "formik";
 import { CustomButton, ErrorInfo, InputField, OAuth, TopHeaderAuthPages, Modal } from "@/components";
-import * as Yup from "yup";
+
 import { Link, router } from "expo-router";
 import { useSignUp } from "@clerk/clerk-expo";
 import { Alert } from "react-native";
-
-const SignupSchema = Yup.object().shape({
-  username: Yup.string().required("پر کردن ایم فیلد اجباریست").min(5, "نام کاربری باید حداقل ۵ حرفی باشد").max(20, "تعداد کاراکتر بیش از حد مجاز"),
-  email: Yup.string().email("فرمت ایمیل نامناسب است").required("پر کردن ایم فیلد اجباریست"),
-  password: Yup.string()
-    .required("پر کردن ایم فیلد اجباریست")
-    .min(8, "پسسورد حداقل باید ۸ کاراکتری باشد")
-    .max(24, "حداکثر ۲۴ کاراکتر مجاز است")
-    .matches(passwordPattern, "پسوورد باید ترکیبی از حروف کوچک و بزرگ و علامتی مثل ! باشد"),
-});
+import { SignupSchema } from "@/validation";
 
 type FormInputesType = {
   username: string;
@@ -54,7 +45,6 @@ const SignUpPage = () => {
           ...verification,
           state: "success",
         });
-        router.push("/(tabs)/home");
       } else {
         setVerification({
           ...verification,
@@ -82,7 +72,7 @@ const SignUpPage = () => {
             validationSchema={SignupSchema}
             onSubmit={async (values: FormInputesType) => {
               if (!isLoaded) return;
-              const { email, password, username } = values;
+              const { email, password } = values;
               try {
                 await signUp?.create({
                   emailAddress: email,
@@ -147,7 +137,7 @@ const SignUpPage = () => {
                 className="mt-4"
                 onPress={() => {
                   setShowSuccessModal(false);
-                  router.replace("/(root)/home");
+                  router.replace("/(root)/(tabs)/home");
                 }}
               />
             </ViewStyled>
