@@ -8,6 +8,7 @@ import { Link, router } from "expo-router";
 import { useSignUp } from "@clerk/clerk-expo";
 import { Alert } from "react-native";
 import { SignupSchema } from "@/validation";
+import { fetchAPI } from "@/lib/fetch";
 
 type FormInputesType = {
   username: string;
@@ -18,16 +19,16 @@ type VerificationType = {
   state: "default" | "pending" | "success" | "failed";
   error: string;
 };
-
 const initValuesForm = { email: "", username: "", password: "" };
+
 const SignUpPage = () => {
   const { isLoaded, setActive, signUp } = useSignUp();
   const [verification, setVerification] = useState<VerificationType>({
     state: "default",
     error: "",
   });
+  const [userData, setUserData] = useState({ email: "", username: "" });
   const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false);
-
   const [code, setCode] = useState<string>("");
   // Verification Email Address
   const onPressVerify = async () => {
@@ -38,8 +39,14 @@ const SignUpPage = () => {
         code,
       });
       if (completedSignUp.status === "complete") {
-        // TODO: Create a database User
-
+        await fetchAPI("/(api)/users", {
+          method: "POST",
+          body: JSON.stringify({
+            username: userData.username,
+            email: userData.email,
+            clerkId: completedSignUp.createdUserId,
+          }),
+        });
         setActive({ session: completedSignUp.createdSessionId });
         setVerification({
           ...verification,
@@ -72,12 +79,16 @@ const SignUpPage = () => {
             validationSchema={SignupSchema}
             onSubmit={async (values: FormInputesType) => {
               if (!isLoaded) return;
-              const { email, password } = values;
+              const { email, password, username } = values;
               try {
                 await signUp?.create({
                   emailAddress: email,
                   password,
                 });
+                setUserData(() => ({
+                  email,
+                  username,
+                }));
                 await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
                 setVerification({
                   ...verification,
