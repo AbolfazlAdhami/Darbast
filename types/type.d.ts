@@ -115,5 +115,3 @@ declare interface DriverCardProps {
   selected: number;
   setSelected: () => void;
 }
-
- 

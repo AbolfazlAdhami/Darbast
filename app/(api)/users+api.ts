@@ -14,7 +14,7 @@ export async function POST(request: Request) {
     );
   try {
     const response = await sql`
-    INSERT INTO users (
+       INSERT INTO users (
         username,
         email,
         clerk_id
@@ -24,7 +24,7 @@ export async function POST(request: Request) {
   ${email},
   ${clerkId}
     )`;
-    console.log(response);
+
     return new Response(JSON.stringify({ data: response }), { status: 201 });
   } catch (error) {
     return Response.json({ error }, { status: 500 });

@@ -5,6 +5,7 @@ import { StatusBar } from "expo-status-bar";
 const Layout = () => {
   return (
     <Stack screenOptions={{ headerShown: false }}>
+      <StatusBar style="dark" />
       <Stack.Screen name="(tabs)" />
     </Stack>
   );
