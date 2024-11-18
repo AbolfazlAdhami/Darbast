@@ -5,3 +5,4 @@ export { default as OAuth } from "./OAuth";
 export { default as TopHeaderAuthPages } from "./TopHeaderAuthPages";
 export { default as Modal } from "./Modal";
 export { default as IconTabBar } from "./IconTabBar";
+export { default as RideCard } from "./RideCard";

@@ -1,4 +1,3 @@
-import React from "react";
 import { I18nManager, Platform } from "react-native";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
@@ -8,8 +7,6 @@ import "react-native-reanimated";
 import { StatusBar } from "expo-status-bar";
 import { ClerkProvider, ClerkLoaded } from "@clerk/clerk-expo";
 import { tokenCache } from "@/lib/auth";
-
-
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -39,6 +36,7 @@ export default function RootLayout() {
     return null;
   }
   const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!;
+
   if (!publishableKey) {
     throw new Error("Add EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY to your .env file");
   }
