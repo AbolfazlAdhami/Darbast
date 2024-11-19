@@ -18,16 +18,16 @@ export function formatTime(minutes: number): string {
   } else {
     const hours = Math.floor(formattedMinutes / 60);
     const remainingMinutes = formattedMinutes % 60;
-    return `${hours}h ${remainingMinutes}m`;
+    return `${hours}ساعت ${remainingMinutes}دقیقه`;
   }
 }
 
 export function formatDate(dateString: string): string {
   const date = new Date(dateString);
-  const day = date.getDate();
-  const monthNames = ["دی", "بهمن", "اسفند", "فروردین", "اردیبشهت", "خرداد", "تیر", "مرداد", "شهریور", "مهر", "آبان", "آذر"];
-  const month = monthNames[date.getMonth()];
-  const year = date.getFullYear();
+  // const day = date.getDate();
+  // const monthNames = ["دی", "بهمن", "اسفند", "فروردین", "اردیبشهت", "خرداد", "تیر", "مرداد", "شهریور", "مهر", "آبان", "آذر"];
+  // const month = monthNames[date.getMonth()];
+  // const year = date.getFullYear();
 
-  return `${day < 10 ? "0" + day : day} ${month} ${year}`;
+  return date.toLocaleDateString("fa-IR", { year: "numeric", month: "long", day: "2-digit", minute: "2-digit", hour: "2-digit", hour12: false });
 }

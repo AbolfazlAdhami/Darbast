@@ -33,21 +33,25 @@ export default function RideCard({ ride: { driver, payment_status, created_at, d
         <ViewStyled className="flex flex-col bg-general-500 w-full mt-5  rounded-lg p-2 items-center justify-center">
           <ViewStyled className="flex flex-row items-center justify-between w-full mb-5">
             <TextStyled className="text-sm font-noor text-gray-500">ساعت و تاریخ</TextStyled>
-            <TextStyled className="text-sm">{formatDate(created_at)}</TextStyled>
+            <TextStyled className="text-xs font-noorLight">{formatDate(created_at)}</TextStyled>
+          </ViewStyled>
+          <ViewStyled className="flex flex-row items-center justify-between w-full mb-5">
+            <TextStyled className="text-sm font-noor text-gray-500">زمان سفر</TextStyled>
+            <TextStyled className="text-xs font-noorLight">{formatTime(ride_time)}</TextStyled>
           </ViewStyled>
           <ViewStyled className="flex flex-row items-center justify-between w-full mb-5">
             <TextStyled className="text-sm font-noor text-gray-500">راننده</TextStyled>
-            <TextStyled className="text-sm ">
+            <TextStyled className="text-xs font-noorLight ">
               {driver.first_name} {driver.last_name}
             </TextStyled>
           </ViewStyled>
           <ViewStyled className="flex flex-row items-center justify-between w-full mb-5">
             <TextStyled className="text-sm font-noor text-gray-500">تعداد صندلی</TextStyled>
-            <TextStyled className="text-sm font-noorBold ">{driver.car_seats}</TextStyled>
+            <TextStyled className="text-xs font-noorLight">{driver.car_seats}</TextStyled>
           </ViewStyled>
           <ViewStyled className="flex flex-row items-center justify-between w-full ">
             <TextStyled className="text-sm font-noor text-gray-500">وضعیت پرداخت</TextStyled>
-            <TextStyled className={`text-sm capitalize font-noorBold ${payment_status === "پرداخت شده" ? "text-green-500" : "text-red-500"}`}>{payment_status}</TextStyled>
+            <TextStyled className={`text-sm font-noorBold capitalize  ${payment_status === "پرداخت شده" ? "text-green-500" : "text-red-500"}`}>{payment_status}</TextStyled>
           </ViewStyled>
         </ViewStyled>
       </ViewStyled>
