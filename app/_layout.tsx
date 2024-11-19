@@ -1,8 +1,9 @@
+import React, { useEffect } from "react";
 import { I18nManager, Platform } from "react-native";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import { useEffect } from "react";
+
 import "react-native-reanimated";
 import { StatusBar } from "expo-status-bar";
 import { ClerkProvider, ClerkLoaded } from "@clerk/clerk-expo";
