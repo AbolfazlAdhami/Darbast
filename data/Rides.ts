@@ -1,5 +1,3 @@
-import { Ride } from "@/types/type";
-
 export const RecentRides = [
   {
     ride_id: "1",

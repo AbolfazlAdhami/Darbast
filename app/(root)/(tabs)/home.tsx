@@ -9,7 +9,7 @@ export default function Page() {
   const { user } = useUser();
 
   return (
-    <SafeAreaViewStyled className="bg-general-500 p-2 min-h-screen">
+    <SafeAreaViewStyled className="bg-general-500 pb-12 p-2 min-h-screen">
       <FlatList data={recentRides.slice(0, 5)} renderItem={({ item }) => <RideCard ride={item} />} />
     </SafeAreaViewStyled>
   );
