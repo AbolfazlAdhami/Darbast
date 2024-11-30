@@ -7,6 +7,7 @@ const Layout = () => {
     <Stack screenOptions={{ headerShown: false }}>
       <StatusBar style="dark" />
       <Stack.Screen name="(tabs)" />
+      <Stack.Screen name="find-ride" />
     </Stack>
   );
 };

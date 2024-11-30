@@ -1,11 +1,14 @@
+import React, { useEffect, useState, Fragment } from "react";
 import { ActivityIndicator, FlatList, Platform } from "react-native";
 import { ImageStyled, SafeAreaViewStyled, TextStyled, TouchableBTN, ViewStyled } from "@/components/CoreStyled";
 import RideCard from "@/components/RideCard";
 import { RecentRides } from "@/data/Rides";
 import { useUser, SignedOut } from "@clerk/clerk-expo";
 import { styled } from "nativewind";
-import { useState } from "react";
+
 import { icons, images } from "@/constant";
+import { GoogleTextInput } from "@/components";
+import { CurrentLocation } from "@/components/CurrentLocation";
 
 const FlatListStyled = styled(FlatList);
 
@@ -13,10 +16,11 @@ const recentRides = RecentRides;
 export default function Page() {
   const { user } = useUser();
   const [loading, setLoading] = useState<boolean>(false);
-  console.log(user);
   const handlesSingOut = async () => {
     await SignedOut({});
   };
+  const handleDestinationPress = (location: { latitude: number; longitude: number; address: string }) => {};
+
   return (
     <SafeAreaViewStyled className="bg-general-500  min-h-screen">
       <FlatListStyled
@@ -38,15 +42,19 @@ export default function Page() {
           </ViewStyled>
         )}
         ListHeaderComponent={() => (
-          <ViewStyled className="flex flex-row justify-between items-center  my-6">
-            <TextStyled className={`${Platform.OS === "android" ? "text-right" : "text-left"} text-lg text-neutral-950 font-noorBold`}>
-              خوش اومدی
-              {user?.firstName || user?.emailAddresses[0].emailAddress.split("@")[0]}👋
-            </TextStyled>
-            <TouchableBTN className="w-10 h-10 bg-white rounded-lg" onPress={handlesSingOut}>
-              <ImageStyled source={icons.out} className="w-6 h-6" />
-            </TouchableBTN>
-          </ViewStyled>
+          <Fragment>
+            <ViewStyled className={`flex ${Platform.OS == "android" ? "flex-row" : "flex-row-reverse"} justify-between items-center  my-6`}>
+              <TextStyled className={`${Platform.OS === "android" ? "text-right" : "text-left"} text-lg text-neutral-950 font-noorBold`}>
+                خوش اومدی
+                {user?.firstName && user?.emailAddresses[0].emailAddress.split("@")[0]}👋
+              </TextStyled>
+              <TouchableBTN className="w-12 h-12 items-center justify-center bg-white rounded-full" onPress={handlesSingOut}>
+                <ImageStyled source={icons.out} className="w-6 h-6" />
+              </TouchableBTN>
+            </ViewStyled>
+            <GoogleTextInput handlePress={handleDestinationPress} icon={icons.search} />
+            <CurrentLocation />
+          </Fragment>
         )}
       />
     </SafeAreaViewStyled>
