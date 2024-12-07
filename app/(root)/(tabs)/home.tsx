@@ -8,11 +8,14 @@ import { styled } from "nativewind";
 
 import { icons, images } from "@/constant";
 import { GoogleTextInput, CurrentLocation, Map } from "@/components";
+import { useLocationStore } from "@/hook/useLocationStore";
 
 const FlatListStyled = styled(FlatList);
 
 const recentRides = RecentRides;
+
 export default function Page() {
+  const { setUserLocation, setDestinationLocation } = useLocationStore()
   const { user } = useUser();
   const [loading, setLoading] = useState<boolean>(false);
   const handlesSingOut = async () => {
