@@ -7,8 +7,7 @@ import { useUser, SignedOut } from "@clerk/clerk-expo";
 import { styled } from "nativewind";
 
 import { icons, images } from "@/constant";
-import { GoogleTextInput } from "@/components";
-import { CurrentLocation } from "@/components/CurrentLocation";
+import { GoogleTextInput, CurrentLocation, Map } from "@/components";
 
 const FlatListStyled = styled(FlatList);
 
@@ -52,8 +51,12 @@ export default function Page() {
                 <ImageStyled source={icons.out} className="w-6 h-6" />
               </TouchableBTN>
             </ViewStyled>
-            <GoogleTextInput handlePress={handleDestinationPress} icon={icons.search} />
+            <GoogleTextInput handlePress={handleDestinationPress} icon={icons.search} containerStyle="bg-white shadow-md shadow-neutral-300 " />
             <CurrentLocation />
+            <ViewStyled className="flex flex-row items-center bg-tra h-[300px]">
+              <Map />
+            </ViewStyled>
+            <TextStyled className={`text-lg  font-noorBold mt-5 mb-3 ${Platform.OS === "android" ? "text-left" : " text-right"}`}>ماشین های موجود</TextStyled>
           </Fragment>
         )}
       />

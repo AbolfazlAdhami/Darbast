@@ -7,4 +7,5 @@ export { default as Modal } from "./Modal";
 export { default as IconTabBar } from "./IconTabBar";
 export { default as RideCard } from "./RideCard";
 export { default as GoogleTextInput } from "./GoogleTextInput";
-export { default as CurrentLoation } from "./CurrentLocation";
+export { default as CurrentLocation } from "./CurrentLocation";
+export { default as Map } from "./Map";
