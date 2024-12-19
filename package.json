@@ -48,7 +48,8 @@
     "react-native-swiper": "^1.6.0",
     "react-native-web": "~0.19.12",
     "yup": "^1.4.0",
-    "zustand": "^5.0.2"
+    "zustand": "^5.0.2",
+    "expo-location": "~17.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

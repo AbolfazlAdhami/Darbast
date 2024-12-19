@@ -5,7 +5,7 @@ import RideCard from "@/components/RideCard";
 import { RecentRides } from "@/data/Rides";
 import { useUser, SignedOut } from "@clerk/clerk-expo";
 import { styled } from "nativewind";
-
+import * as Location from "expo-location";
 import { icons, images } from "@/constant";
 import { GoogleTextInput, CurrentLocation, Map } from "@/components";
 import { useLocationStore } from "@/hook/useLocationStore";
@@ -15,9 +15,30 @@ const FlatListStyled = styled(FlatList);
 const recentRides = RecentRides;
 
 export default function Page() {
-  const { setUserLocation, setDestinationLocation } = useLocationStore()
+  const { setUserLocation, setDestinationLocation } = useLocationStore();
   const { user } = useUser();
   const [loading, setLoading] = useState<boolean>(false);
+  const [hasPermissions, setHasPermission] = useState<boolean>(false);
+
+  useEffect(() => {
+    const requestLocation = async () => {
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        setHasPermission(false);
+        return;
+      }
+      setHasPermission(true);
+      const location = await Location.getCurrentPositionAsync();
+      const address = await Location.reverseGeocodeAsync({
+        latitude: location.coords?.latitude,
+        longitude: location.coords?.longitude,
+      });
+      console.log(address, "Address");
+      setUserLocation({ latitude: location.coords.latitude, longitude: location.coords?.longitude, address: `${address[0].name} ${address[0].region}` });
+    };
+
+    requestLocation();
+  }, []);
   const handlesSingOut = async () => {
     await SignedOut({});
   };
