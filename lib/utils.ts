@@ -24,10 +24,5 @@ export function formatTime(minutes: number): string {
 
 export function formatDate(dateString: string): string {
   const date = new Date(dateString);
-  // const day = date.getDate();
-  // const monthNames = ["دی", "بهمن", "اسفند", "فروردین", "اردیبشهت", "خرداد", "تیر", "مرداد", "شهریور", "مهر", "آبان", "آذر"];
-  // const month = monthNames[date.getMonth()];
-  // const year = date.getFullYear();
-
   return date.toLocaleDateString("fa-IR", { year: "numeric", month: "long", day: "2-digit", minute: "2-digit", hour: "2-digit", hour12: false });
 }

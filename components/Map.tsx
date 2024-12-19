@@ -1,13 +1,18 @@
 import React from "react";
 import MapView, { PROVIDER_DEFAULT } from "react-native-maps";
-import MapViewDirections from "react-native-maps-directions";
 
-import { ViewStyled } from "./CoreStyled";
+import { useLocationStore } from "@/hook/useLocationStore";
+import { calculateRegion } from "@/lib/map";
 
 const Map = () => {
   const GOOGLE_MAPS_APIKEY = process.env.EXPO_PUBLIC_GOOGLE_API_KEY;
-  // console.log(GOOGLE_MAPS_APIKEY);
-  const region = {};
+  const { userLatitude, userLongitude, destinationLatitude, destinationLongitude } = useLocationStore();
+  const region = calculateRegion({
+    userLatitude,
+    userLongitude,
+    destinationLatitude,
+    destinationLongitude,
+  });
 
   return (
     <MapView
@@ -18,6 +23,7 @@ const Map = () => {
       mapType="mutedStandard"
       showsPointsOfInterest={false}
       userInterfaceStyle="light"
+      region={region}
     ></MapView>
   );
 };
