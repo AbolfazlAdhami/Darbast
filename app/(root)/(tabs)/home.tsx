@@ -22,6 +22,7 @@ export default function Page() {
   useEffect(() => {
     requestLocation();
   }, []);
+
   const handlesSingOut = async () => {
     await SignedOut({});
   };
