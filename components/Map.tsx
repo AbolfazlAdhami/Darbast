@@ -10,7 +10,7 @@ import { icons } from "@/constant";
 const Map = () => {
   const GOOGLE_MAPS_APIKEY = process.env.EXPO_PUBLIC_GOOGLE_API_KEY;
   const { userLatitude, userLongitude, destinationLatitude, destinationLongitude } = useLocationStore();
-  const { selectedDriver } = useDriverStore();
+  const { selectedDriver, setSelectedDriver } = useDriverStore();
   const [markers, setMarkers] = useState<MarkerData[]>([]);
 
   const region = calculateRegion({
@@ -44,6 +44,7 @@ const Map = () => {
           image={selectedDriver === marker.id ? icons.selectedMarker : icons.marker}
           key={marker.id}
           title={marker.title}
+          // onPress={() => setSelectedDriver(marker.id)}
         />
       ))}
     </MapView>
