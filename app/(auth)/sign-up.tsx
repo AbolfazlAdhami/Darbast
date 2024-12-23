@@ -95,7 +95,7 @@ const SignUpPage = () => {
                   state: "pending",
                 });
               } catch (error: any) {
-                console.log(error)
+                console.error(error);
                 console.error(JSON.stringify(error, null, 2));
                 if (error.errors[0]) Alert.alert("Error", error?.errors[0].longMEssage);
               }
