@@ -6,12 +6,8 @@ import { formatDate, formatTime } from "@/lib/utils";
 const mapApiKey = process.env.MAP_API_KEY;
 
 export default function RideCard({ ride: { driver, payment_status, created_at, destination_address, destination_latitude, destination_longitude, ride_time, origin_address } }: { ride: Ride }) {
-<<<<<<< HEAD
   const mapApiKey = process.env.MAP_API_KEY;
 
-=======
-  // console.log(mapApiKey, "map api key");
->>>>>>> parent of 4d2517b (update: google inpute style)
   return (
     <ViewStyled className={`flex  ${Platform.OS === "android" ? "flex-row" : "flex-row-reverse"} items-center justify-between p-1 bg-white shadow-sm shadow-neutral-300 mb-3 rounded-lg`}>
       <ViewStyled className="p-3 flex flex-col items-center justify-center">

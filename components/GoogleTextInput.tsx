@@ -17,7 +17,6 @@ const GoogleTextInput = ({ icon, initialLocation, containerStyle, handlePress, t
         }}
         query={{
           key: GOOGLE_API_KEY,
-<<<<<<< HEAD
           language: "en",
         }}
         renderLeftButton={() => (
@@ -36,8 +35,6 @@ const GoogleTextInput = ({ icon, initialLocation, containerStyle, handlePress, t
         textInputProps={{
           placeholderTextColor: "gray",
           placeholder: initialLocation ?? "کجا دوست داری بری؟",
-=======
->>>>>>> parent of 4d2517b (update: google inpute style)
         }}
       />
     </ViewStyled>
