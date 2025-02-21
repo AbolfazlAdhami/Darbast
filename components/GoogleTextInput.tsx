@@ -6,7 +6,6 @@ import { icons } from "@/constant";
 
 const GoogleTextInput = ({ icon, initialLocation, containerStyle, handlePress, textInputBackgroundColor }: GoogleInputProps) => {
   const GOOGLE_API_KEY = process.env.EXPO_PUBLIC_GOOGLE_API_KEY;
-
   return (
     <ViewStyled className={`flex flex-row items-center justify-center relative z-50 rounded-xl mb-4 ${containerStyle}}`}>
       <GooglePlacesAutocomplete
@@ -20,7 +19,7 @@ const GoogleTextInput = ({ icon, initialLocation, containerStyle, handlePress, t
         }}
         query={{
           key: GOOGLE_API_KEY,
-          language: "fa",
+          language: "en",
         }}
         renderLeftButton={() => (
           <ViewStyled className="justify-center items-center w-6 h-6">
@@ -28,6 +27,7 @@ const GoogleTextInput = ({ icon, initialLocation, containerStyle, handlePress, t
           </ViewStyled>
         )}
         onPress={(data, details = null) => {
+          console.log(data);
           handlePress({
             latitude: details?.geometry.location.lat!,
             longitude: details?.geometry?.location.lng!,
