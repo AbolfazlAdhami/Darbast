@@ -18,6 +18,7 @@ const useGetLocation = () => {
       latitude: location.coords?.latitude,
       longitude: location.coords?.longitude,
     });
+    console.log(address, "Address");
     setUserLocation({ latitude: location.coords.latitude, longitude: location.coords?.longitude, address: `${address[0].name} ${address[0].region}` });
   };
 
