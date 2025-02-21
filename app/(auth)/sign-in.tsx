@@ -24,6 +24,7 @@ const SignIn = () => {
             initialValues={{ email: "", username: "", password: "" }}
             validationSchema={SignInSchema}
             onSubmit={async (values: FormInputesType) => {
+              console.log(isLoaded);
               if (!isLoaded) return;
               const { email, password } = values;
               try {
